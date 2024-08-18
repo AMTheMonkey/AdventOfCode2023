@@ -111,3 +111,30 @@ let parseGame_Should_ReturnCorrectValue () =
     let res = parseGame input
     //Assert
     Assert.That(res, Is.EqualTo(expectedOutput))
+
+[<Test>]
+let getMinimumRequiredConfiguration_return_consistent_configuration () =
+    //Arrange
+    let input: Game =
+        { Id = 1
+          Records =
+            [ { BlueCube = Some(3)
+                RedCube = Some(4)
+                GreenCube = None }
+              { RedCube = Some(1)
+                GreenCube = Some(2)
+                BlueCube = Some(6) }
+              { GreenCube = Some(2)
+                RedCube = None
+                BlueCube = None } ] }
+
+    let expectedOutput: Record =
+        { RedCube = Some(4)
+          GreenCube = Some(2)
+          BlueCube = Some(6) }
+
+    //Act
+    let res = getMinimumRequiredConfiguration input
+
+    //Assert
+    Assert.That(res, Is.EqualTo(expectedOutput))

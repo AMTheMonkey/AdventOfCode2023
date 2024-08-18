@@ -63,5 +63,18 @@ module Cube =
     let solveFirstPart () =
         parseAllGames ()
         |> List.filter (fun game -> validateGame game firstPartConfiguration)
-        |> Common.Log.log
         |> sumGameId
+
+    let getMinimumRequiredConfiguration (game: Game) : Record =
+        { BlueCube = List.map (fun game -> game.BlueCube) game.Records |> List.max
+          RedCube = List.map (fun game -> game.RedCube) game.Records |> List.max
+          GreenCube = List.map (fun game -> game.GreenCube) game.Records |> List.max }
+
+    let computePower (record: Record) : int =
+        record.BlueCube.Value * record.RedCube.Value * record.GreenCube.Value
+
+    let solveSecondPart () =
+        parseAllGames ()
+        |> List.map getMinimumRequiredConfiguration
+        |> List.map computePower
+        |> List.sum
